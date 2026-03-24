@@ -1,14 +1,17 @@
 
+import 'package:gus/Todos.dart';
+import 'package:gus/app_database.dart';
+
 import 'AddRepository.dart';
 import 'HomeState.dart';
-import 'Toodo.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeViewModal {
   final AppRepository repo;
 
   HomeViewModal({required this.repo});
-  Future <List<Toodo>>fetchList()=>repo.getList();
+  Future <List<Todo>>fetchList()=>repo.getList();
 }
 class homeCubit extends Cubit<HomeState>{
   final HomeViewModal vm;

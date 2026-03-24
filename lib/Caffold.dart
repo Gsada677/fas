@@ -25,7 +25,7 @@ class _Scaaffold extends State<Scaaffold>{
     
   
     backgroundColor: Colors.white,
-  appBar: AppBar(title: Text('Todo List'),actions: [
+  appBar: AppBar(title: Text(''),actions: [
     TextButton(onPressed: _hnaviagateToAddPage, child: Text('пропустить'))
   ],),
  body: Center(
@@ -61,7 +61,7 @@ SizedBox(height: 30,),
     Text(  ' another mother my'),
     Text(  ' sister from another mister'),
     SizedBox(height:  16),
-  Image.asset('images/Eps.jpeg',height: 150,width: 300,),
+  Image.asset('images/Epstein.webp',height: 150,width: 300,),
     
   
       ],

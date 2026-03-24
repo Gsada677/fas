@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gus/ChangePAge.dart';
+import 'package:gus/Todos.dart';
 import 'addpage.dart';
 import 'AddRepository.dart';
-import 'DataBase.dart';
+import 'app_database.dart';
 import 'HomeState.dart';
 import 'homeModal.dart';
-import 'Toodo.dart';
+import 'Todos.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Theme.dart';
 class MyHomePage extends StatefulWidget {
@@ -21,6 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late final String contr;
   late final homeCubit cubit;
   ThemeMode themeMode = ThemeMode.light;
+  
 List<Toodo> tasks=[];
 bool isVisible=true;
  late TextEditingController _controller;
@@ -65,7 +68,7 @@ cubit.fetchList();
           
           return Scaffold(
         
-
+backgroundColor: Colors.grey,
   
 
         
@@ -97,12 +100,13 @@ cubit.fetchList();
          TextButton(onPressed: _changeText, child: Text('скрыть'),),*/
   Expanded(child:ListView.builder(itemCount: tasks.length,itemBuilder: (context,index){
   return GestureDetector(
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>Changepage())),
                 child: Container(
                   height: 85,
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 40, 137, 221),
+                    color: const Color.fromARGB(255, 224, 229, 234),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -187,7 +191,7 @@ final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)
   
   if (result != null && result.isNotEmpty) {
     setState(() {
-      tasks.add(Toodo(tittle: result,isDone: false,Date: DateTime.now().toString()));
+      tasks.add(Toodo(tittle: result,isDone: false,Date: DateTime.now().toString(),onTap: () => Changepage(),));
     });
 
 
