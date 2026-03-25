@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:gus/HomeScreen.dart';
+import 'package:gus/OnBoarding.dart';
 import 'package:gus/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Scaaffold extends StatefulWidget{
-  const Scaaffold({super.key});
+  final seen;
+  
+  const Scaaffold({super.key,required this.seen,});
   @override
   State<Scaaffold> createState() =>_Scaaffold();
    
 
 }
 class _Scaaffold extends State<Scaaffold>{
+  
+  final bool seenOnBrd=false;
+  Future<void>completedOnbording()async{
+    final prefs=await
+    SharedPreferences.getInstance();
+    await prefs.setBool('SeenOnbrd', true);
+  }
+
+   
   int index=0;
   Widget Buildbox(){
    return Container(
@@ -48,7 +62,7 @@ children: [
   ),
     ),
   
-  
+  seenOnBrd?HomeScreen():OnboardingScreen(),
   SizedBox(height: 5,),
         Text('Todo List',style: TextStyle(fontSize: 35,fontWeight: FontWeight.w900,),),
 SizedBox(height: 30,),
@@ -103,7 +117,7 @@ class AddPage extends StatefulWidget{
 class _AddPage extends State<AddPage>{
   List<Widget>pages=[
     AddPage(),
-    Scaaffold(),
+    Scaaffold(seen: '',),
   ];
   @override
   Widget build(BuildContext context) {
