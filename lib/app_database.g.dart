@@ -7,7 +7,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TodosTable( this.attachedDatabase, [this._alias]);
+  $TodosTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -21,10 +21,10 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  static const VerificationMeta _tittleMeta = const VerificationMeta('tittle');
   @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-    'title',
+  late final GeneratedColumn<String> tittle = GeneratedColumn<String>(
+    'tittle',
     aliasedName,
     false,
     additionalChecks: GeneratedColumn.checkTextLength(
@@ -57,7 +57,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
     requiredDuringInsert: true,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, title, isDone, date];
+  List<GeneratedColumn> get $columns => [id, tittle, isDone, date];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -73,13 +73,13 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('title')) {
+    if (data.containsKey('tittle')) {
       context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+        _tittleMeta,
+        tittle.isAcceptableOrUnknown(data['tittle']!, _tittleMeta),
       );
     } else if (isInserting) {
-      context.missing(_titleMeta);
+      context.missing(_tittleMeta);
     }
     if (data.containsKey('is_done')) {
       context.handle(
@@ -108,9 +108,9 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      title: attachedDatabase.typeMapping.read(
+      tittle: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}title'],
+        data['${effectivePrefix}tittle'],
       )!,
       isDone: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
@@ -131,12 +131,12 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
 
 class Todo extends DataClass implements Insertable<Todo> {
   final int id;
-  final String title;
+  final String tittle;
   final bool isDone;
   final String date;
   const Todo({
     required this.id,
-    required this.title,
+    required this.tittle,
     required this.isDone,
     required this.date,
   });
@@ -144,7 +144,7 @@ class Todo extends DataClass implements Insertable<Todo> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['title'] = Variable<String>(title);
+    map['tittle'] = Variable<String>(tittle);
     map['is_done'] = Variable<bool>(isDone);
     map['date'] = Variable<String>(date);
     return map;
@@ -153,7 +153,7 @@ class Todo extends DataClass implements Insertable<Todo> {
   TodosCompanion toCompanion(bool nullToAbsent) {
     return TodosCompanion(
       id: Value(id),
-      title: Value(title),
+      tittle: Value(tittle),
       isDone: Value(isDone),
       date: Value(date),
     );
@@ -166,7 +166,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Todo(
       id: serializer.fromJson<int>(json['id']),
-      title: serializer.fromJson<String>(json['title']),
+      tittle: serializer.fromJson<String>(json['tittle']),
       isDone: serializer.fromJson<bool>(json['isDone']),
       date: serializer.fromJson<String>(json['date']),
     );
@@ -176,22 +176,22 @@ class Todo extends DataClass implements Insertable<Todo> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'title': serializer.toJson<String>(title),
+      'tittle': serializer.toJson<String>(tittle),
       'isDone': serializer.toJson<bool>(isDone),
       'date': serializer.toJson<String>(date),
     };
   }
 
-  Todo copyWith({int? id, String? title, bool? isDone, String? date}) => Todo(
+  Todo copyWith({int? id, String? tittle, bool? isDone, String? date}) => Todo(
     id: id ?? this.id,
-    title: title ?? this.title,
+    tittle: tittle ?? this.tittle,
     isDone: isDone ?? this.isDone,
     date: date ?? this.date,
   );
   Todo copyWithCompanion(TodosCompanion data) {
     return Todo(
       id: data.id.present ? data.id.value : this.id,
-      title: data.title.present ? data.title.value : this.title,
+      tittle: data.tittle.present ? data.tittle.value : this.tittle,
       isDone: data.isDone.present ? data.isDone.value : this.isDone,
       date: data.date.present ? data.date.value : this.date,
     );
@@ -201,7 +201,7 @@ class Todo extends DataClass implements Insertable<Todo> {
   String toString() {
     return (StringBuffer('Todo(')
           ..write('id: $id, ')
-          ..write('title: $title, ')
+          ..write('tittle: $tittle, ')
           ..write('isDone: $isDone, ')
           ..write('date: $date')
           ..write(')'))
@@ -209,44 +209,44 @@ class Todo extends DataClass implements Insertable<Todo> {
   }
 
   @override
-  int get hashCode => Object.hash(id, title, isDone, date);
+  int get hashCode => Object.hash(id, tittle, isDone, date);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Todo &&
           other.id == this.id &&
-          other.title == this.title &&
+          other.tittle == this.tittle &&
           other.isDone == this.isDone &&
           other.date == this.date);
 }
 
 class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<int> id;
-  final Value<String> title;
+  final Value<String> tittle;
   final Value<bool> isDone;
   final Value<String> date;
   const TodosCompanion({
     this.id = const Value.absent(),
-    this.title = const Value.absent(),
+    this.tittle = const Value.absent(),
     this.isDone = const Value.absent(),
     this.date = const Value.absent(),
   });
   TodosCompanion.insert({
     this.id = const Value.absent(),
-    required String title,
+    required String tittle,
     this.isDone = const Value.absent(),
     required String date,
-  }) : title = Value(title),
+  }) : tittle = Value(tittle),
        date = Value(date);
   static Insertable<Todo> custom({
     Expression<int>? id,
-    Expression<String>? title,
+    Expression<String>? tittle,
     Expression<bool>? isDone,
     Expression<String>? date,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (title != null) 'title': title,
+      if (tittle != null) 'tittle': tittle,
       if (isDone != null) 'is_done': isDone,
       if (date != null) 'date': date,
     });
@@ -254,13 +254,13 @@ class TodosCompanion extends UpdateCompanion<Todo> {
 
   TodosCompanion copyWith({
     Value<int>? id,
-    Value<String>? title,
+    Value<String>? tittle,
     Value<bool>? isDone,
     Value<String>? date,
   }) {
     return TodosCompanion(
       id: id ?? this.id,
-      title: title ?? this.title,
+      tittle: tittle ?? this.tittle,
       isDone: isDone ?? this.isDone,
       date: date ?? this.date,
     );
@@ -272,8 +272,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (title.present) {
-      map['title'] = Variable<String>(title.value);
+    if (tittle.present) {
+      map['tittle'] = Variable<String>(tittle.value);
     }
     if (isDone.present) {
       map['is_done'] = Variable<bool>(isDone.value);
@@ -288,7 +288,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   String toString() {
     return (StringBuffer('TodosCompanion(')
           ..write('id: $id, ')
-          ..write('title: $title, ')
+          ..write('tittle: $tittle, ')
           ..write('isDone: $isDone, ')
           ..write('date: $date')
           ..write(')'))
@@ -310,14 +310,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$TodosTableCreateCompanionBuilder =
     TodosCompanion Function({
       Value<int> id,
-      required String title,
+      required String tittle,
       Value<bool> isDone,
       required String date,
     });
 typedef $$TodosTableUpdateCompanionBuilder =
     TodosCompanion Function({
       Value<int> id,
-      Value<String> title,
+      Value<String> tittle,
       Value<bool> isDone,
       Value<String> date,
     });
@@ -335,8 +335,8 @@ class $$TodosTableFilterComposer extends Composer<_$AppDatabase, $TodosTable> {
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
+  ColumnFilters<String> get tittle => $composableBuilder(
+    column: $table.tittle,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -365,8 +365,8 @@ class $$TodosTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
+  ColumnOrderings<String> get tittle => $composableBuilder(
+    column: $table.tittle,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -393,8 +393,8 @@ class $$TodosTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => column);
+  GeneratedColumn<String> get tittle =>
+      $composableBuilder(column: $table.tittle, builder: (column) => column);
 
   GeneratedColumn<bool> get isDone =>
       $composableBuilder(column: $table.isDone, builder: (column) => column);
@@ -432,24 +432,24 @@ class $$TodosTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<String> title = const Value.absent(),
+                Value<String> tittle = const Value.absent(),
                 Value<bool> isDone = const Value.absent(),
                 Value<String> date = const Value.absent(),
               }) => TodosCompanion(
                 id: id,
-                title: title,
+                tittle: tittle,
                 isDone: isDone,
                 date: date,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required String title,
+                required String tittle,
                 Value<bool> isDone = const Value.absent(),
                 required String date,
               }) => TodosCompanion.insert(
                 id: id,
-                title: title,
+                tittle: tittle,
                 isDone: isDone,
                 date: date,
               ),
