@@ -20,6 +20,12 @@ class AppDatabase extends _$AppDatabase {
   Future<int> insertTodo(TodosCompanion todo) {
     return into(todos).insert(todo);
   }
+  Future<int>updateTodo(int id,TodosCompanion todo){
+    return(update(todos)..where((t)=>t.id.equals(id))).write(todo);
+  }
+  Future<int>deleteTodo(int id){
+     return(delete(todos)..where((t)=>t.id.equals(id))).go();
+  }
 }
 
 LazyDatabase _openConnection() {
