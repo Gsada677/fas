@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gus/ChangePAge.dart';
+import 'package:gus/details_page.dart';
+import 'changepag.dart';
 import 'package:gus/Todos.dart';
 import 'addpage.dart';
 import 'AddRepository.dart';
@@ -9,21 +10,23 @@ import 'homeModal.dart';
 import 'Todos.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Theme.dart';
+import 'package:drift/drift.dart';
 class MyHomePage extends StatefulWidget {
-
-const MyHomePage ({super.key,});
+final String tittle;
+final AppDatabase db;
+const MyHomePage ({super.key,required this.tittle,required this.db});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
- 
+  late final AppDatabase appDatabase;
   late PreferredSize preferredSize;
   late final String contr;
   late final homeCubit cubit;
   ThemeMode themeMode = ThemeMode.light;
-  
+
 List<Toodo> tasks=[];
 bool isVisible=true;
  late TextEditingController _controller;
@@ -37,7 +40,25 @@ bool isVisible=true;
     final vm=HomeViewModal(repo: repo);
 cubit=homeCubit(vm: vm);
 cubit.fetchList();
+ appDatabase=AppDatabase();
+
   }
+   Future<void> loadTodos() async {
+    final data = await widget.db.select(widget.db.todos).get();
+    widget.emit(data);
+  }
+
+  Future<void> toggleIsDone(Todo todo) async {
+    await 
+    widget.db.updateIsDone(todo.id, !todo.isDone);
+    await loadTodos();
+  }
+  Future<void> updateIsDone(int id, bool isDone) {
+  return (update(widget.todos)..where((t) => t.id.equals(id)))
+      .write(TodosCompanion(
+    isDone: Value(isDone),
+  ));
+}
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -81,11 +102,7 @@ backgroundColor: Colors.grey,
       ),
       drawer: Themee(),
            body: Center(
-        child: Column(
-          
-          mainAxisAlignment: .center,
-          
-          children: [
+        child: 
 
             /*Text(text),
             Visibility(child: Text('to show and hide'),
@@ -98,9 +115,22 @@ backgroundColor: Colors.grey,
 
            
          TextButton(onPressed: _changeText, child: Text('скрыть'),),*/
-  Expanded(child:ListView.builder(itemCount: tasks.length,itemBuilder: (context,index){
-  return GestureDetector(
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>Changepage())),
+  Expanded(child:ListView.builder(itemCount: state.items.length,itemBuilder: (context,index){
+      final todo = state.items[index];
+      ListTile(
+        title: Text(todo.tittle),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailsPage(todo: todo, appDatabase: appDatabase)));
+        },
+        trailing: Checkbox(
+          value: todo.isDone,
+          onChanged: (_) {
+            context.read<homeCubit>().toggleIsDone(todo);
+          },
+        ),
+      );
+return GestureDetector(
+    onTap: () => (){Navigator.push(context,MaterialPageRoute(builder: (context)=>DetailsPage(todo:todo, appDatabase: appDatabase)));},
                 child: Container(
                   height: 85,
                   margin: const EdgeInsets.only(bottom: 12),
@@ -131,13 +161,14 @@ backgroundColor: Colors.grey,
                     ],
                   ),
                 ),
+  
   );
   },
   ),
   ),
       
-          ],
-        ),
+          
+        
 
       ),
 
@@ -184,14 +215,16 @@ floatingActionButtonLocation:  FloatingActionButtonLocation.centerFloat,
       themeMode =themeMode== ThemeMode.light?ThemeMode.dark:ThemeMode.light;
     });
   }
- 
+ void _navigate(int id){
+Navigator.push(context, MaterialPageRoute(builder: (_)=>const MyHomePage(tittle: '')));
+ }
 void _naviagateToAddPage()async{
 final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> AddPage()));
 
   
   if (result != null && result.isNotEmpty) {
     setState(() {
-      tasks.add(Toodo(tittle: result,isDone: false,Date: DateTime.now().toString(),onTap: () => Changepage(),));
+            tasks.add(Toodo(tittle: result,isDone: false,Date: DateTime.now().toString(), onTap: () {  }));
     });
 
 

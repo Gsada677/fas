@@ -6,8 +6,9 @@ import 'package:gus/Todos.dart';
 import 'package:gus/app_database.dart';
 import 'package:gus/main.dart';
 
-class Changepage extends StatefulWidget{
-  
+/*class Changepage extends StatefulWidget{
+  final Todo todo;
+  const Changepage ({super.key,required this.todo});
     @override
   State<Changepage> createState()=>_ChangePage();
     // TODO: implement createState
@@ -110,9 +111,10 @@ void initSate(){
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: )
     );
   }
 
 
 }
-
+*/

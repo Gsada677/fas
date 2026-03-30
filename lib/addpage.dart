@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:gus/app_database.dart';
 
 class AddPage extends StatefulWidget {
-  const AddPage({super.key});
+final String tittle;
+  const AddPage({super.key,required this.tittle});
 
   @override
   State<AddPage> createState() => _AddPageState();
 }
 
 class _AddPageState extends State<AddPage> {
+  late final AppDatabase appDatabase;
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
   
@@ -30,7 +32,17 @@ class _AddPageState extends State<AddPage> {
       });
     }
   }
-
+void _saveTodo() async {
+    try {
+        await appDatabase.insertTodo(TodosCompanion.insert(
+              tittle: _controller.text, 
+              date: DateTime.now().toString()));
+             showAppSnackBar(context, text: 'saved',backgroundColor: Colors.yellow,icon: Icons.check);
+              
+    } catch (e) {
+      showAppSnackBar(context, text: "Должно быть минимум 3 символа!", backgroundColor: Colors.red);
+    }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,4 +123,41 @@ class _AddPageState extends State<AddPage> {
       ),
     );
   }
+    void showAppSnackBar(
+  BuildContext context, {
+  required String text,
+  Color? backgroundColor,
+  IconData? icon,
+  VoidCallback? onRetry,
+  String retryText = "Повторить",
+}) {
+  final messenger = ScaffoldMessenger.of(context);
+
+  messenger.hideCurrentSnackBar();
+  messenger.showSnackBar(
+    SnackBar(
+      content: Row(
+        children: [
+          if (icon != null) ...[
+            Icon(icon, color: Colors.white),
+            const SizedBox(width: 12),
+          ],
+          Expanded(child: Text(text)),
+        ],
+      ),
+      backgroundColor: backgroundColor,
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.fromLTRB(12, 12, 12, 400),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      duration: const Duration(seconds: 3),
+      action: onRetry == null
+          ? null
+          : SnackBarAction(
+              label: retryText,
+              onPressed: onRetry,
+              textColor: Colors.white,
+            ),
+    ),
+  );
+}
 }

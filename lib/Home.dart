@@ -48,7 +48,7 @@ required String opisanie,
        trailing: Switch(value: themeMode==ThemeMode.dark ,onChanged: (value)=>onToggle(),),
        title: Text(themeMode==ThemeMode.light?'White Theme':'Dark Theme',),
        subtitle: Text(opisanie),
-      
+   
        
         
         horizontalTitleGap: 8,

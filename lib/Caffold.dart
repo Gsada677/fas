@@ -4,9 +4,7 @@ import 'package:gus/OnBoarding.dart';
 import 'package:gus/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class Scaaffold extends StatefulWidget{
-  final seen;
-  
-  const Scaaffold({super.key,required this.seen,});
+ 
   @override
   State<Scaaffold> createState() =>_Scaaffold();
    
@@ -103,7 +101,7 @@ final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)
 
 }
 void _hnaviagateToAddPage()async{
-final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> MyHomePage()));
+final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> MyHomePage(tittle: '',)));
 
 }
 }
@@ -117,7 +115,7 @@ class AddPage extends StatefulWidget{
 class _AddPage extends State<AddPage>{
   List<Widget>pages=[
     AddPage(),
-    Scaaffold(seen: '',),
+    Scaaffold(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -158,10 +156,10 @@ floatingActionButtonLocation:  FloatingActionButtonLocation.endFloat,
   } 
 
   void _naviagateToAddPage()async{
-final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> MyHomePage()));
+final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> MyHomePage(tittle: '',)));
 }
 void _hnaviagateToAddPage()async{
-final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> MyHomePage()));
+final result=await Navigator.push<String>(context,MaterialPageRoute(builder: (_)=> MyHomePage(tittle: '',)));
 
 }
 void _pop(){
